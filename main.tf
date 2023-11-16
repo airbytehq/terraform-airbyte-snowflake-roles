@@ -46,23 +46,22 @@ resource "snowflake_grant_privileges_to_role" "ab_warehouse_grant" {
   }
 }
 
-resource "snowflake_database_grant" "ab_db_grant" {
+resource "snowflake_grant_privileges_to_role" "ab_db_grant" {
   provider = snowflake.sysadmin
-  database_name = var.airbyte_database_name
-  privilege = "OWNERSHIP"
-  roles = [
-    snowflake_role.airbyte.name
-  ]
+  privileges = ["OWNERSHIP"]
+  role_name = snowflake_role.airbyte.name
+  on_account_object {
+    object_type = "DATABASE"
+    object_name = var.airbyte_database_name
+  }
 }
 
-
-resource "snowflake_schema_grant" "ab_aschema_grant" {
+resource "snowflake_grant_privileges_to_role" "ab_aschema_grant" {
   for_each = toset(var.airbyte_schema_names)
   provider = snowflake.sysadmin
-  database_name = var.airbyte_database_name
-  schema_name = each.key
-  privilege = "OWNERSHIP"
-  roles = [
-    snowflake_role.airbyte.name
-  ]
+  privileges = ["OWNERSHIP"]
+  role_name = snowflake_role.airbyte.name
+  on_schema {
+    all_schemas_in_database = var.airbyte_database_name
+  }
 }

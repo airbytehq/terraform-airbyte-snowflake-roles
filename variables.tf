@@ -18,11 +18,6 @@ variable "airbyte_database_name" {
   default = "AIRBYTE_DATABASE"
 }
 
-variable "airbyte_schema_names" {
-  type = list(string)
-  default = ["AIRBYTE_SCHEMA", "airbyte_internal"]
-}
-
 variable "airbyte_password" {
   type = string
   sensitive = true

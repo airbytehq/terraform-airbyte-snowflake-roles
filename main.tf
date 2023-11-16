@@ -46,6 +46,16 @@ resource "snowflake_warehouse_grant" "ab_warehouse_grant" {
   ]
 }
 
+resource "snowflake_grant_privileges_to_role" "ab_warehouse_grant" {
+  provider = snowflake.sysadmin
+  privileges = ["USAGE"]
+  role_name = snowflake_role.airbyte.name
+  on_account_object {
+    object_type = "WAREHOUSE"
+    object_name = var.airbyte_warehouse_name
+  }
+}
+
 resource "snowflake_database_grant" "ab_db_grant" {
   provider = snowflake.sysadmin
   database_name = var.airbyte_database_name

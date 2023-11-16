@@ -57,7 +57,6 @@ resource "snowflake_grant_privileges_to_role" "ab_db_grant" {
 }
 
 resource "snowflake_grant_privileges_to_role" "ab_aschema_grant" {
-  for_each = toset(var.airbyte_schema_names)
   provider = snowflake.sysadmin
   privileges = ["OWNERSHIP"]
   role_name = snowflake_role.airbyte.name

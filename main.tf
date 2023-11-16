@@ -36,16 +36,6 @@ resource "snowflake_role_grants" "user_grant" {
   ]
 }
 
-
-resource "snowflake_warehouse_grant" "ab_warehouse_grant" {
-  provider = snowflake.sysadmin
-  warehouse_name = var.airbyte_warehouse_name
-  privilege = "USAGE"
-  roles = [
-    snowflake_role.airbyte.name
-  ]
-}
-
 resource "snowflake_grant_privileges_to_role" "ab_warehouse_grant" {
   provider = snowflake.sysadmin
   privileges = ["USAGE"]
